@@ -9,8 +9,25 @@ from datetime import datetime, timedelta
 
 
 class Instance:
-    def __init__(self):
-        self.stats = {}
+    def __init__(self, name=""):
+        self.__stats = {}
+        self.__name = name
+
+    @property
+    def stats(self):
+        if not self.__stats:
+            path = os.path.join(os.getcwd(), 'Stats', self.__name, '.txt')
+            with open(path, 'r') as stat:
+                self.__stats = json.load(stat)
+        return self.__stats
+
+    @stats.setter
+    def stats(self, value):
+        if self.__stats != value:
+            self.__stats = value
+            path = os.path.join(os.getcwd(), 'Stats', self.__name, '.txt')
+            with open(path, 'w') as stat:
+                self.__stats = json.dump(stat)
 
     def set_stat(self, name, value, updated, duration, fault_detection,
                  change_detection):
@@ -18,9 +35,6 @@ class Instance:
         smallest_value = 1e-20
 
         try:
-            with open(path, 'r') as stat:
-                self.stats = json.load(stat)
-
             tolerance_min = value
             tolerance_max = value
 
