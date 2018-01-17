@@ -12,6 +12,9 @@ class Instance:
     def __init__(self, name=""):
         self.__stats = {}
         self.__name = name
+        stats_path = os.path.join(os.getcwd(), 'Stats')
+        if not os.path.exists(stats_path):
+            os.makedirs(stats_path)
 
     @property
     def stats(self):
