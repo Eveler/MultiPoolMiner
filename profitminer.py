@@ -5,6 +5,22 @@ import argparse
 import json
 
 
+class ProfitMiner:
+    def __init__(self, args):
+        self.__all_algorithms = self.load_algorithms("Algorithms.txt")
+        algorithms = args.algorithm.lower().split(',')
+        excluded_algorithms = self.__all_algorithms.keys() - algorithms
+        self.__all_regions = self.load_regions('Regions.txt')
+
+    def load_algorithms(self, file_path):
+        with open(file_path, "r") as f:
+            return json.load(f)
+
+    def load_regions(self, file_path):
+        with open(file_path, 'r') as f:
+            return json.load(f)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-wallet', type=str,
@@ -31,13 +47,7 @@ def main():
     parser.add_argument('-delay', type=int, default=0)
     args = parser.parse_args('-algorithm cryptonight,decred'.split())
 
-    with open("Algorithms.txt", "r") as f:
-        all_algorithms = json.load(f)
-    algorithms = args.algorithm.lower().split(',')
-    excluded_algorithms = all_algorithms.keys() - algorithms
-
-    with open('Regions.txt', 'r') as f:
-        all_regions = json.load(f)
+    pm = ProfitMiner(args)
 
     donate_wallet = '17yRzYS6ZZPHb4stH7eiYTsKp8qncNq2eg'
     donate_user = 'Eveler'
