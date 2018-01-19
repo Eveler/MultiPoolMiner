@@ -6,8 +6,7 @@ import logging
 import os
 import subprocess
 
-from datetime import datetime, timedelta
-from sys import stdout
+from datetime import datetime
 
 
 class Instance:
@@ -43,7 +42,7 @@ class Instance:
             self.__stats = value
             path = os.path.join(os.getcwd(), 'Stats', self.__name, '.txt')
             with open(path, 'w') as stat:
-                self.__stats = json.dump(stat)
+                json.dump(self.__stats, stat)
 
     def set_stat(self, name, value, updated, duration, fault_detection,
                  change_detection):
@@ -73,12 +72,19 @@ class Instance:
                     "outside fault tolerance (%s ... %s). " %
                     (name, value, tolerance_min, tolerance_max))
             else:
-                Span_Minute = min(duration.seconds * 60 / min(self.stats.get("Duration").get("TotalMinutes"), 1), 1)
-                Span_Minute_5 = min((duration.seconds * 60 / 5) / min((self.stats.get("Duration").get("TotalMinutes") / 5), 1), 1)
-                Span_Minute_10 = min((duration.seconds * 60 / 10) / min((self.stats.get("Duration").get("TotalMinutes") / 10), 1), 1)
-                Span_Hour = min(duration.seconds * 3600 / min(self.stats.get("Duration").get("TotalHours"), 1), 1)
-                Span_Day = min(duration.days / min(self.stats.get("Duration").get("TotalDays"), 1), 1)
-                Span_Week = min((duration.days / 7) / min((self.stats.get("Duration").get("TotalDays") / 7), 1), 1)
+                Span_Minute = min(duration.seconds * 60 / min(
+                    self.stats.get("Duration").get("TotalMinutes"), 1), 1)
+                Span_Minute_5 = min((duration.seconds * 60 / 5) / min(
+                    (self.stats.get("Duration").get("TotalMinutes") / 5), 1), 1)
+                Span_Minute_10 = min((duration.seconds * 60 / 10) / min(
+                    (self.stats.get("Duration").get("TotalMinutes") / 10), 1),
+                                     1)
+                Span_Hour = min(duration.seconds * 3600 / min(
+                    self.stats.get("Duration").get("TotalHours"), 1), 1)
+                Span_Day = min(duration.days / min(
+                    self.stats.get("Duration").get("TotalDays"), 1), 1)
+                Span_Week = min((duration.days / 7) / min(
+                    (self.stats.get("Duration").get("TotalDays") / 7), 1), 1)
         except Exception as e:
             logging.error(str(e))
 
