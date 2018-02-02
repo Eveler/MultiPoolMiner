@@ -29,7 +29,8 @@ def main():
                 'timetravel,tribus,vanilla,veltor,x11,x11gost,x11evo,x17,xevan,'
                 'xmr,yescrypt,zec,zuikkis')
     parser.add_argument('-delay', type=int, default=0)
-    args = parser.parse_args('-algorithm cryptonight,decred'.split())
+    parser.add_argument('-donate', type=int, default=10)
+    args = parser.parse_args()
 
     with open("Algorithms.txt", "r") as f:
         all_algorithms = json.load(f)
@@ -38,9 +39,13 @@ def main():
 
     with open('Regions.txt', 'r') as f:
         all_regions = json.load(f)
+    regions = args.region.lower().split(',')
+    excluded_regions = all_regions.keys() - regions
 
     donate_wallet = '17yRzYS6ZZPHb4stH7eiYTsKp8qncNq2eg'
     donate_user = 'Eveler'
+    donate_percent = args.donate if args.donate > 10 else 10
+    donate_threshold = 100 - donate_percent
 
 
 if __name__ == '__main__':
