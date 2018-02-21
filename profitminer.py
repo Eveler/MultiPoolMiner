@@ -61,4 +61,5 @@ def main():
 if __name__ == '__main__':
     # main()
     from core.plugin import load_plugins
-    print(load_plugins('APIs'))
+    for plugin in load_plugins('APIs'):
+        print(plugin, ":", plugin.get_raw_response('http://api.nicehash.com/api?method=simplemultialgo.info'))

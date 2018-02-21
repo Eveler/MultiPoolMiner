@@ -2,6 +2,11 @@
 
 # Author: Savenko Mike
 import logging
+from importlib import import_module
+from os import scandir
+from sys import path
+
+import requests
 
 plugins = []
 
@@ -26,11 +31,15 @@ class Plugin(object):
     def __str__(self):
         return '<Plugin %s>' % self._name
 
+    def get_raw_response(self, url):
+        try:
+            return requests.get(url)
+        except requests.RequestException:
+            logging.error('Error in %s' % self, exc_info=True)
+
 
 def load_plugins(dir_path):
-    from os import scandir
-    from importlib import import_module
-    from sys import path
+    loaded = []
     path.insert(0, dir_path)
     for entry in scandir(dir_path):
         if not entry.name.startswith('.') and entry.is_file() \
@@ -48,5 +57,6 @@ def load_plugins(dir_path):
     for plugin in Plugin.__subclasses__():
         p = plugin()
         plugins.append(p)
+        loaded.append(p)
 
-    return plugins
+    return loaded
