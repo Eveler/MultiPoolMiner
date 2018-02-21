@@ -59,4 +59,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    from core.plugin import load_plugins
+    print(load_plugins('APIs'))
