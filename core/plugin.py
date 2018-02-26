@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 # Author: Savenko Mike
+import json
 import logging
 from importlib import import_module
 from os import scandir
@@ -36,6 +37,11 @@ class Plugin(object):
             return requests.get(url)
         except requests.RequestException:
             logging.error('Error in %s' % self, exc_info=True)
+
+    def get_response(self, url=''):
+        return json.loads(
+            self.get_raw_response(url if url else self.server + (
+                ':' + self.port if self.port else "")).text)
 
 
 def load_plugins(dir_path):
