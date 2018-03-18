@@ -2,25 +2,8 @@
 
 # Author: Savenko Mike
 import argparse
-import json
 
-
-class ProfitMiner:
-    def __init__(self, args):
-        self.__all_algorithms = self.load_algorithms("Algorithms.txt")
-        algorithms = args.algorithm.lower().split(',')
-        excluded_algorithms = self.__all_algorithms.keys() - algorithms
-        self.__all_regions = self.load_regions('Regions.txt')
-        regions = args.region.lower().split(',')
-        excluded_regions = self.__all_regions.keys() - regions
-
-    def load_algorithms(self, file_path):
-        with open(file_path, "r") as f:
-            return json.load(f)
-
-    def load_regions(self, file_path):
-        with open(file_path, 'r') as f:
-            return json.load(f)
+from core import ProfitMiner
 
 
 def main():
@@ -52,16 +35,8 @@ def main():
 
     pm = ProfitMiner(args)
 
-    donate_wallet = '17yRzYS6ZZPHb4stH7eiYTsKp8qncNq2eg'
-    donate_user = 'Eveler'
-    donate_percent = args.donate if args.donate > 10 else 10
-    donate_threshold = 100 - donate_percent
 
 
 if __name__ == '__main__':
-    # main()
-    from core.plugin import load_plugins
+    main()
 
-    for plugin in load_plugins('APIs'):
-        print(plugin, ":", plugin.get_response(
-            'http://api.nicehash.com/api?method=simplemultialgo.info'))

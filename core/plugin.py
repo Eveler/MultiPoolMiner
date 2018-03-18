@@ -14,6 +14,7 @@ plugins = []
 
 class Plugin(object):
     # __name = 'undefined'
+    get_algorithm = None
 
     def __init__(self):
         # if not hasattr(self, '_%s__name' % self.__get_class_name()):
@@ -38,10 +39,14 @@ class Plugin(object):
         except requests.RequestException:
             logging.error('Error in %s' % self, exc_info=True)
 
-    def get_response(self, url=''):
+    def get_response_json(self, url=''):
         return json.loads(
             self.get_raw_response(url if url else self.server + (
                 ':' + self.port if self.port else "")).text)
+
+    def get_response_text(self, url=''):
+        return self.get_raw_response(url if url else self.server + (
+            ':' + self.port if self.port else "")).text
 
 
 def load_plugins(dir_path):

@@ -3,3 +3,5 @@
 # Author: Savenko Mike
 
 from .mininginstance import *
+from .profitminer import *
+from .plugin import *
