@@ -3,7 +3,9 @@
 # Author: Savenko Mike
 import json
 
-from core import load_plugins
+from .plugin import load_plugins
+
+DONATE_PERCENT = 5
 
 
 class ProfitMiner:
@@ -11,6 +13,9 @@ class ProfitMiner:
         self.__all_algorithms = self.load_algorithms("Algorithms.txt")
         self.algorithms = args.algorithm.lower().split(',')
         self.excluded_algorithms = self.__all_algorithms.keys() - self.algorithms
+        if not self.algorithms:
+            self.algorithms = self.__all_algorithms
+            self.excluded_algorithms = []
         self.__all_regions = self.load_regions('Regions.txt')
         self.regions = args.region.lower().split(',')
         self.excluded_regions = self.__all_regions.keys() - self.regions
@@ -18,7 +23,7 @@ class ProfitMiner:
         self.instances = []
         self.donate_wallet = '17yRzYS6ZZPHb4stH7eiYTsKp8qncNq2eg'
         self.donate_user = 'Eveler'
-        self.donate_percent = args.donate if args.donate > 10 else 10
+        self.donate_percent = args.donate if args.donate > DONATE_PERCENT else DONATE_PERCENT
         self.donate_threshold = 100 - self.donate_percent
 
     def step(self):

@@ -48,6 +48,9 @@ class Plugin(object):
         return self.get_raw_response(url if url else self.server + (
             ':' + self.port if self.port else "")).text
 
+    def get_hash_rate(self, algo, safe=False):
+        raise Exception("Abstract method")
+
 
 def load_plugins(dir_path):
     loaded = []
