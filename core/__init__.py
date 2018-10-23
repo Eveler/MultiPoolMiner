@@ -5,3 +5,4 @@
 from .mininginstance import *
 from .profitminer import *
 from .plugin import *
+from .miner import *

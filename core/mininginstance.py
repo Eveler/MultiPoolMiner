@@ -44,6 +44,14 @@ class Instance:
             with open(path, 'w') as stat:
                 json.dump(self.__stats, stat)
 
+    @property
+    def wnd_state(self):
+        return self.__wnd_state
+
+    @wnd_state.setter
+    def wnd_state(self, value):
+        self.__wnd_state = value
+
     def set_stat(self, name, value, updated, duration, fault_detection,
                  change_detection):
         path = os.path.join(os.getcwd(), 'Stats', name, '.txt')

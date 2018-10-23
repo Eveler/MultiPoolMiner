@@ -3,10 +3,10 @@
 # Author: Savenko Mike
 from time import sleep
 
-from core.plugin import Plugin
+from core import Miner
 
 
-class Cast(Plugin):
+class Cast(Miner):
     _name = "Cast"
     server = "localhost"
     timeout = 10  # seconds
