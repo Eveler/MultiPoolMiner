@@ -54,6 +54,9 @@ class ProfitMiner:
         #         'http://api.nicehash.com/api?method=simplemultialgo.info'))
         return load_plugins(dir_path)
 
+    def load_pools(self, dir_path='Pools'):
+        return load_plugins(dir_path, self.get_algorithm)
+
     def get_algorithm(self, algo):
         algo = algo.replace('-', '').replace('_', '').replace(' ', '').lower()
         algo = algo[0].upper() + algo[1:]

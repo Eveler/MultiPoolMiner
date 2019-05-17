@@ -23,11 +23,13 @@ class Plugin(object):
         # else:
         #     self.__name = getattr(self, '_%s__name' % self.__get_class_name())
         if not hasattr(self, '_name'):
-            self._name = 'undefined'
+            self._name = self._get_class_name()
+            if not self._name:
+                self._name = 'undefined'
         logging.debug('Plugin "%s" loaded' % self._name)
 
     @classmethod
-    def __get_class_name(cls):
+    def _get_class_name(cls):
         return cls.__name__
 
     def __str__(self):
@@ -52,7 +54,7 @@ class Plugin(object):
         raise Exception("Abstract method")
 
 
-def load_plugins(dir_path):
+def load_plugins(dir_path, callback=None):
     loaded = []
     path.insert(0, dir_path)
     for entry in scandir(dir_path):
@@ -69,7 +71,7 @@ def load_plugins(dir_path):
             #             plugins.append(p)
 
     for plugin in Plugin.__subclasses__():
-        p = plugin()
+        p = plugin(callback=callback)
         plugins.append(p)
         loaded.append(p)
 

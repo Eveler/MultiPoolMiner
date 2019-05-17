@@ -10,6 +10,8 @@ class Miner(Plugin):
 
     def __init__(self, name="", wnd_state=Instance.SW_HIDE):
         super().__init__()
+        if not name:
+            name = self._get_class_name()
         self.name = name
         self.wnd_state = wnd_state
         self.instance = Instance(self.name, self.wnd_state)
